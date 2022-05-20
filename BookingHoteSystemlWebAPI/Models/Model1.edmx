@@ -1,0 +1,320 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="HotelBookingsystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Guest">
+          <Key>
+            <PropertyRef Name="Guest_ID" />
+          </Key>
+          <Property Name="Guest_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" />
+          <Property Name="Email" Type="varchar" MaxLength="255" />
+          <Property Name="Phone" Type="varchar" MaxLength="255" />
+          <Property Name="Guest_Password" Type="varchar" MaxLength="255" />
+          <Property Name="Country" Type="varchar" MaxLength="255" />
+          <Property Name="City" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Hotel_Branch">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Branch_loca" Type="varchar" MaxLength="255" />
+          <Property Name="HGuest_id" Type="int" />
+          <Property Name="HRoom_number" Type="int" />
+        </EntityType>
+        <EntityType Name="Reservation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Resroom_number" Type="int" />
+          <Property Name="Resguest_id" Type="int" />
+          <Property Name="Booking_Name" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Room">
+          <Key>
+            <PropertyRef Name="Room_number" />
+          </Key>
+          <Property Name="Room_number" Type="int" Nullable="false" />
+          <Property Name="Room_loca" Type="varchar" MaxLength="255" />
+          <Property Name="Guest_id" Type="int" />
+          <Property Name="Room_type" Type="varchar" MaxLength="255" />
+          <Property Name="Room_status" Type="bit" />
+          <Property Name="Room_Date" Type="date" />
+          <Property Name="Duration" Type="int" />
+        </EntityType>
+        <Association Name="FK_GuetId1">
+          <End Role="Guest" Type="Self.Guest" Multiplicity="0..1" />
+          <End Role="Room" Type="Self.Room" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guest">
+              <PropertyRef Name="Guest_ID" />
+            </Principal>
+            <Dependent Role="Room">
+              <PropertyRef Name="Guest_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GuetId3">
+          <End Role="Guest" Type="Self.Guest" Multiplicity="0..1" />
+          <End Role="Hotel_Branch" Type="Self.Hotel_Branch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guest">
+              <PropertyRef Name="Guest_ID" />
+            </Principal>
+            <Dependent Role="Hotel_Branch">
+              <PropertyRef Name="HGuest_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoonId2">
+          <End Role="Room" Type="Self.Room" Multiplicity="0..1" />
+          <End Role="Hotel_Branch" Type="Self.Hotel_Branch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="Room_number" />
+            </Principal>
+            <Dependent Role="Hotel_Branch">
+              <PropertyRef Name="HRoom_number" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Fkguest">
+          <End Role="Guest" Type="Self.Guest" Multiplicity="0..1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guest">
+              <PropertyRef Name="Guest_ID" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="Resguest_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HotelBookingsystemModelStoreContainer">
+          <EntitySet Name="Guest" EntityType="Self.Guest" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Hotel_Branch" EntityType="Self.Hotel_Branch" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reservation" EntityType="Self.Reservation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Room" EntityType="Self.Room" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_GuetId1" Association="Self.FK_GuetId1">
+            <End Role="Guest" EntitySet="Guest" />
+            <End Role="Room" EntitySet="Room" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GuetId3" Association="Self.FK_GuetId3">
+            <End Role="Guest" EntitySet="Guest" />
+            <End Role="Hotel_Branch" EntitySet="Hotel_Branch" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoonId2" Association="Self.FK_RoonId2">
+            <End Role="Room" EntitySet="Room" />
+            <End Role="Hotel_Branch" EntitySet="Hotel_Branch" />
+          </AssociationSet>
+          <AssociationSet Name="Fkguest" Association="Self.Fkguest">
+            <End Role="Guest" EntitySet="Guest" />
+            <End Role="Reservation" EntitySet="Reservation" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HotelBookingsystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Guest">
+          <Key>
+            <PropertyRef Name="Guest_ID" />
+          </Key>
+          <Property Name="Guest_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Guest_Password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Country" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Rooms" Relationship="Self.FK_GuetId1" FromRole="Guest" ToRole="Room" />
+          <NavigationProperty Name="Hotel_Branch" Relationship="Self.FK_GuetId3" FromRole="Guest" ToRole="Hotel_Branch" />
+          <NavigationProperty Name="Reservations" Relationship="Self.Fkguest" FromRole="Guest" ToRole="Reservation" />
+        </EntityType>
+        <EntityType Name="Hotel_Branch">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Branch_loca" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="HGuest_id" Type="Int32" />
+          <Property Name="HRoom_number" Type="Int32" />
+          <NavigationProperty Name="Guest" Relationship="Self.FK_GuetId3" FromRole="Hotel_Branch" ToRole="Guest" />
+          <NavigationProperty Name="Room" Relationship="Self.FK_RoonId2" FromRole="Hotel_Branch" ToRole="Room" />
+        </EntityType>
+        <EntityType Name="Reservation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Resroom_number" Type="Int32" />
+          <Property Name="Resguest_id" Type="Int32" />
+          <Property Name="Booking_Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Guest" Relationship="Self.Fkguest" FromRole="Reservation" ToRole="Guest" />
+        </EntityType>
+        <EntityType Name="Room">
+          <Key>
+            <PropertyRef Name="Room_number" />
+          </Key>
+          <Property Name="Room_number" Type="Int32" Nullable="false" />
+          <Property Name="Room_loca" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Guest_id" Type="Int32" />
+          <Property Name="Room_type" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Room_status" Type="Boolean" />
+          <Property Name="Room_Date" Type="DateTime" Precision="0" />
+          <Property Name="Duration" Type="Int32" />
+          <NavigationProperty Name="Guest" Relationship="Self.FK_GuetId1" FromRole="Room" ToRole="Guest" />
+          <NavigationProperty Name="Hotel_Branch" Relationship="Self.FK_RoonId2" FromRole="Room" ToRole="Hotel_Branch" />
+        </EntityType>
+        <Association Name="FK_GuetId1">
+          <End Role="Guest" Type="Self.Guest" Multiplicity="0..1" />
+          <End Role="Room" Type="Self.Room" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guest">
+              <PropertyRef Name="Guest_ID" />
+            </Principal>
+            <Dependent Role="Room">
+              <PropertyRef Name="Guest_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GuetId3">
+          <End Role="Guest" Type="Self.Guest" Multiplicity="0..1" />
+          <End Role="Hotel_Branch" Type="Self.Hotel_Branch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guest">
+              <PropertyRef Name="Guest_ID" />
+            </Principal>
+            <Dependent Role="Hotel_Branch">
+              <PropertyRef Name="HGuest_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Fkguest">
+          <End Role="Guest" Type="Self.Guest" Multiplicity="0..1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guest">
+              <PropertyRef Name="Guest_ID" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="Resguest_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoonId2">
+          <End Role="Room" Type="Self.Room" Multiplicity="0..1" />
+          <End Role="Hotel_Branch" Type="Self.Hotel_Branch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="Room_number" />
+            </Principal>
+            <Dependent Role="Hotel_Branch">
+              <PropertyRef Name="HRoom_number" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HotelBookingsystemEntities5" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Guests" EntityType="Self.Guest" />
+          <EntitySet Name="Hotel_Branch" EntityType="Self.Hotel_Branch" />
+          <EntitySet Name="Reservations" EntityType="Self.Reservation" />
+          <EntitySet Name="Rooms" EntityType="Self.Room" />
+          <AssociationSet Name="FK_GuetId1" Association="Self.FK_GuetId1">
+            <End Role="Guest" EntitySet="Guests" />
+            <End Role="Room" EntitySet="Rooms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GuetId3" Association="Self.FK_GuetId3">
+            <End Role="Guest" EntitySet="Guests" />
+            <End Role="Hotel_Branch" EntitySet="Hotel_Branch" />
+          </AssociationSet>
+          <AssociationSet Name="Fkguest" Association="Self.Fkguest">
+            <End Role="Guest" EntitySet="Guests" />
+            <End Role="Reservation" EntitySet="Reservations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoonId2" Association="Self.FK_RoonId2">
+            <End Role="Room" EntitySet="Rooms" />
+            <End Role="Hotel_Branch" EntitySet="Hotel_Branch" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HotelBookingsystemModelStoreContainer" CdmEntityContainer="HotelBookingsystemEntities5">
+          <EntitySetMapping Name="Guests">
+            <EntityTypeMapping TypeName="HotelBookingsystemModel.Guest">
+              <MappingFragment StoreEntitySet="Guest">
+                <ScalarProperty Name="Guest_ID" ColumnName="Guest_ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Guest_Password" ColumnName="Guest_Password" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="City" ColumnName="City" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Hotel_Branch">
+            <EntityTypeMapping TypeName="HotelBookingsystemModel.Hotel_Branch">
+              <MappingFragment StoreEntitySet="Hotel_Branch">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Branch_loca" ColumnName="Branch_loca" />
+                <ScalarProperty Name="HGuest_id" ColumnName="HGuest_id" />
+                <ScalarProperty Name="HRoom_number" ColumnName="HRoom_number" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reservations">
+            <EntityTypeMapping TypeName="HotelBookingsystemModel.Reservation">
+              <MappingFragment StoreEntitySet="Reservation">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Resroom_number" ColumnName="Resroom_number" />
+                <ScalarProperty Name="Resguest_id" ColumnName="Resguest_id" />
+                <ScalarProperty Name="Booking_Name" ColumnName="Booking_Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rooms">
+            <EntityTypeMapping TypeName="HotelBookingsystemModel.Room">
+              <MappingFragment StoreEntitySet="Room">
+                <ScalarProperty Name="Room_number" ColumnName="Room_number" />
+                <ScalarProperty Name="Room_loca" ColumnName="Room_loca" />
+                <ScalarProperty Name="Guest_id" ColumnName="Guest_id" />
+                <ScalarProperty Name="Room_type" ColumnName="Room_type" />
+                <ScalarProperty Name="Room_status" ColumnName="Room_status" />
+                <ScalarProperty Name="Room_Date" ColumnName="Room_Date" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
